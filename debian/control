@@ -1,0 +1,20 @@
+Source: stsbl-iserv-perl-lib
+Section: perl
+Priority: extra
+Maintainer: Stadtteilschule Blankenese <repository@stsbl.de>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: https://it.stsbl.de/
+
+Package: stsbl-iserv-perl-lib
+Architecture: all
+Depends: iserv-portal
+Description: Perl-Bibliotheken für IServ
+ Enthält Perl-Bibliotheken für die IServ-Systemprogrammierung, die häufig verwendete Funktionen enthalten.
+ .
+ Komponenten:
+ .
+ - Stsbl::IServ::Security - Anmeldung am sessauthd und Rechteüberprüfung.
+ - Stsbl::IServ::IO - Ein-/Ausgabefunktionen
+ - Stsbl::IServ::Log - Hilsfunktionen für das Logging.
+Tag: implemented-in::perl
