@@ -47,8 +47,7 @@ sub sessauth_auth($)
 sub sessauth_login($)
 {
   my ($service) = @_;
-  $user = IServ::Valid::User $user;
-  $password = IServ::Valid::Passwd $password;
+  
   sessauth::login $user, $password, $service or die "sessauth login failed!";
 }
 
