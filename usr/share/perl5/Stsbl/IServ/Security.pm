@@ -13,7 +13,7 @@ BEGIN
 {
   use Exporter;
   our @ISA = qw(Exporter);
-  our @EXPORT = qw(sessauth_auth auth_level req_auth req_priv req_flag req_group_owner set_credentials set_ips);
+  our @EXPORT = qw(sessauth_auth sessauth_login auth_level req_auth req_priv req_priv_or_root req_flag req_group_owner set_credentials set_ips verify_uid);
 }
 
 # variables
@@ -44,6 +44,14 @@ sub sessauth_auth($)
   $IServ::DB::logipfwd = $login_ip_fwd;
 }
 
+sub sessauth_login($)
+{
+  my ($service) = @_;
+  $user = IServ::Valid::User $user;
+  $password = IServ::Valid::Passwd $password;
+  sessauth::login $user, $password, $service or die "sessauth login failed!";
+}
+
 sub auth_level
 {
   $auth_level = "none" if not defined $auth_level;
@@ -59,7 +67,13 @@ sub auth_user
 sub req_auth
 {
   Stsbl::IServ::IO::error "need auth"
-  unless (auth_level eq "user") || (auth_level eq "admin");
+    unless (auth_level eq "user") || (auth_level eq "admin");
+}
+
+sub req_admin
+{
+  Stsbl::IServ::IO::error "need admin"
+    unless auth_level eq "admin";
 }
 
 sub req_priv($)
@@ -71,7 +85,13 @@ sub req_priv($)
     FROM role_privileges r WHERE Privilege = ? 
     AND EXISTS (SELECT 1 FROM user_roles u WHERE 
     u.Act = ? AND u.Role = r.Role)) LIMIT 1",
-    auth_user, $priv, $priv, auth_user;
+    $user, $priv, $priv, $user;
+}
+
+sub req_priv_or_root($)
+{
+  return if $user eq "root";
+  req_priv @_;
 }
 
 sub req_flag($$)
@@ -102,6 +122,19 @@ sub set_ips($$)
   
   ($login_ip) = ($supp_ip // "") =~ /^($m_ip)$/; 
   ($login_ip_fwd) = ($supp_ip_fwd // "") =~ /^($m_ip)$/;
+}
+
+sub sudo_context()
+{
+  return (%ENV and defined $ENV{'SUDO_UID'} and $ENV{'SUDO_UID'});
+}
+
+sub verify_uid($)
+{
+  my $act = shift @_;
+
+  my (undef, undef, $uid) = getpwnam $act or die "getpwnam for $act failed: $!\n";  
+  $uid >= 500 or die "UID too low\n";
 }
 
 1;
