@@ -104,7 +104,7 @@ sub req_group_owner($)
 {
   my ($group) = @_;
   my $user = auth_user;
-  die "group $group is not owned by $user\n"
+  Stsbl::IServ::IO::error "group $group is not owned by $user\n"
   unless IServ::DB::Do "SELECT 1 FROM groups
     WHERE Act = ? AND Owner = ?", $group, $user;
 }
