@@ -31,7 +31,7 @@ sub sessauth_auth($)
   if (not defined $password or not defined $user) {
     $auth_level = "none";
   } else {
-    $user = IServ::Valid::User $user;
+    $user = IServ::Valid::Act $user;
     $password = IServ::Valid::Passwd $password;
     my $res = sessauth::sessauth $user, $password, $service;
     die "wrong session password\n" unless $res =~ /^OK\b/;
@@ -89,8 +89,7 @@ sub req_priv($)
 
 sub req_priv_or_root($)
 {
-  return if $user eq "root";
-  req_priv @_;
+  req_priv shift unless $user eq "root";
 }
 
 sub req_flag($$)
