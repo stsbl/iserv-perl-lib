@@ -1,3 +1,12 @@
+stsbl-iserv-perl-lib (17.04.20-0) experimental; urgency=medium
+
+  * Security.pm:
+    - Switched from IServ::Valid::User to IServ::Valid::Act, because User seems to be broken.
+    - Fixed req_priv_or_root.
+    - req_group_owner: Switched from die to Stsbl::IServ::IO::error.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Thu, 20 Apr 2017 14:34:32 +0200
+
 stsbl-iserv-perl-lib (17.04.02-0) unstable; urgency=low
 
   * Initial Release.
