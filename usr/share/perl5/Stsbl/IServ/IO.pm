@@ -7,7 +7,7 @@ use warnings;
 sub error($) {
   my ($error) = @_;
   print STDERR $error."\n";
-  die();
+  exit(1);
 }
 
 1;
