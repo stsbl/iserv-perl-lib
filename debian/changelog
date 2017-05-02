@@ -1,3 +1,13 @@
+stsbl-iserv-perl-lib (17.05.02-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * IO.pm: Use exit(1) instead of die() to prevent message "Died at /usr/share/perl5/Stsbl/IServ/IO.pm line 10."
+  * Log.pm: Fixed header.
+  * Security.pm: Reworked user and password validation.
+  * Added missing RPC.pm.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Tue, 02 May 2017 20:31:01 +0200
+
 stsbl-iserv-perl-lib (17.04.20-0) experimental; urgency=medium
 
   * Security.pm:
