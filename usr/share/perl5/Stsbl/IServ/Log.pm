@@ -1,4 +1,4 @@
-# StsBl IServ Log Perl Library  
+# StsBl IServ Log Perl Library
 
 package Stsbl::IServ::Log;
 use strict;
