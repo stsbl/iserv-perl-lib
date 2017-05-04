@@ -56,7 +56,7 @@ sub rpc_linux_current_user($)
   return $users{$maxtty} if defined $users{$maxtty};
 }
 
-sub req_nologin(@)
+sub rcp_linux_req_nologin(@)
 {
   my (@ips) = @_;
   my $cnt;
