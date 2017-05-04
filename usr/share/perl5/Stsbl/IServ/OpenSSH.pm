@@ -23,19 +23,32 @@ sub openssh_run($@)
   my @err;
   my $random = new Bytes::Random::Secure();
   my $touch = new File::Touch();
-  # Redirect stdderr temporary to prevent annoying warning of ssh :/
-  open OLDSTDERR, ">&STDERR" or die "Couldn't redirect OLDSTDERR: $!";
-  open STDERR, ">/dev/null" or die "Couldn't redirect STDERR: $!";
   my $stdout_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
   my $stderr_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
   my $known_hosts_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
-  $touch->touch($stdout_file) or die "Couldn't touch file $stdout_file: $!";
-  $touch->touch($stderr_file) or die "Couldn't touch file $stderr_file: $!";
-  $touch->touch($known_hosts_file) or die "Couldn't touch file $known_hosts_file: $!";
-  # protect files from world-wide access
-  chmod 00600, $stdout_file or die "Couldn't chmod file $stdout_file: $!";
-  chmod 00600, $stderr_file or die "Couldn't chmod file $stderr_file: $!";
-  chmod 00600, $known_hosts_file or die "Couldn't chmod file $known_hosts_file: $!";
+
+  # untain variables (TODO why is this neccessary?!)
+  if ($stdout_file =~ /^(.*)$/) {
+    $stdout_file = $1;
+  } else {
+    die "Failed to untain data!";
+  }
+  if ($stderr_file =~ /^(.*)$/) {
+    $stderr_file = $1;
+  } else {
+    die "Failed to untain data!";
+  }
+  if ($known_hosts_file =~ /^(.*)$/) {
+    $known_hosts_file = $1;
+  } else {
+    die "Failed to untain data!";
+  }
+
+  foreach my $file (($stdout_file, $stderr_file, $known_hosts_file))
+  {
+    $touch->touch($file) or die "Couldn't touch file $file: $!";
+    chmod 00600, $file or die "Couldn't chmod file $file: $!";
+  }
 
   open my $stdout_fh, ">>", $stdout_file;
   open my $stderr_fh, ">>", $stderr_file;
@@ -44,7 +57,8 @@ sub openssh_run($@)
     $ip,
     master_opts => [-i => "/var/lib/iserv/config/id_rsa", -o => "StrictHostKeyChecking=no", -o => "UserKnownHostsFile=$known_hosts_file"],
     user => "root",
-    default_stdout_fh => $stdout_fh
+    default_stdout_fh => $stdout_fh,
+    default_stderr_fh => $stderr_fh
   );
 
   if (not $ssh->error)
@@ -60,10 +74,6 @@ sub openssh_run($@)
   # close connection and write output
   undef $ssh;
   
-  # restore stderr
-  open STDERR, ">&OLDSTDERR" or die "Couldn't redirect STDERR: $!";;
-  close OLDSTDERR or die "Couldn't close OLDSTDERR: $!";;
-
   if (@err > 0)
   {
     print STDERR @err;
