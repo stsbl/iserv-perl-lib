@@ -5,6 +5,7 @@ use warnings;
 use strict;
 use Encode qw(encode);
 use IServ::RPC;
+use Stsbl::IServ::IO;
 use Stsbl::IServ::OpenSSH;
 
 BEGIN
@@ -53,6 +54,19 @@ sub rpc_linux_current_user($)
   }
 
   return $users{$maxtty} if defined $users{$maxtty};
+}
+
+sub req_nologin(@)
+{
+  my (@ips) = @_;
+  my $cnt;
+  for (@ips)
+  {
+    rpc_linux_current_user $_ or next;
+    print STDERR "$_: still logged in\n";
+    $cnt++;
+  }
+  error "All users must be logged off from the selected computers.\n" if $cnt;
 }
 
 1;
