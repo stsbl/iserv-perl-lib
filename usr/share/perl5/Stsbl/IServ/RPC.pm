@@ -12,7 +12,7 @@ BEGIN
 {
   use Exporter;
   our @ISA = qw(Exporter);
-  our @EXPORT = qw(rcp_message_unicode rpc_linux_current_user);
+  our @EXPORT = qw(rcp_message_unicode rpc_linux_current_user rpc_linux_req_nologin);
 }
 
 sub rpc_message_unicode($$)
