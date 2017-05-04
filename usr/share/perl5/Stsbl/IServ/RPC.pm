@@ -56,7 +56,7 @@ sub rpc_linux_current_user($)
   return $users{$maxtty} if defined $users{$maxtty};
 }
 
-sub rcp_linux_req_nologin(@)
+sub rpc_linux_req_nologin(@)
 {
   my (@ips) = @_;
   my $cnt;
@@ -66,7 +66,7 @@ sub rcp_linux_req_nologin(@)
     print STDERR "$_: still logged in\n";
     $cnt++;
   }
-  error "All users must be logged off from the selected computers.\n" if $cnt;
+  error "All users must be logged off from the selected computers." if $cnt;
 }
 
 1;
