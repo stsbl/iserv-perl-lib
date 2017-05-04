@@ -10,6 +10,13 @@ use File::Touch;
 use IServ::IO;
 use Net::OpenSSH;
 
+BEGIN
+{
+  use Exporter;
+  our @ISA = qw(Exporter);
+  our @EXPORT = qw(openssh_run);
+}
+
 sub openssh_run($@)
 {
   my ($ip, @cmd) = @_;
