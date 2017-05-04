@@ -5,12 +5,13 @@ use warnings;
 use strict;
 use Encode qw(encode);
 use IServ::RPC;
+use Stsbl::IServ::OpenSSH;
 
 BEGIN
 {
   use Exporter;
   our @ISA = qw(Exporter);
-  our @EXPORT = qw(rcp_message_unicode);
+  our @EXPORT = qw(rcp_message_unicode rpc_linux_current_user);
 }
 
 sub rpc_message_unicode($$)
@@ -32,6 +33,26 @@ sub rpc_message_unicode($$)
     @err = IServ::RPC::winexe $ip, "cmd", "/c", "chcp 65001", ">NUL", "&", IServ::RPC::netlogon "exe\\start", "iserv-msg", $msg;
   }
   wantarray? @err: print STDERR @err;
+}
+
+sub rpc_linux_current_user($)
+{
+  my ($ip) = @_;
+  my %ssh_call = openssh_run $ip, "who -u";
+  my @out = split /\n/, $ssh_call{stdout};
+  my $maxtty = 0;
+  my %users;
+
+  foreach my $line (@out)
+  {
+    if (defined $line and $line =~ /^([a-z][a-z0-9._-]*)\stty([0-9]*)/)
+    {
+      $users{$2} = $1;
+      $maxtty = $2 if $2 > $maxtty;	
+    }
+  }
+
+  return $users{$maxtty} if defined $users{$maxtty};
 }
 
 1;
