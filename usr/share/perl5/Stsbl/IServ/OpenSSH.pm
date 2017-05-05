@@ -55,7 +55,12 @@ sub openssh_run($@)
 
   my $ssh = Net::OpenSSH->new(
     $ip,
-    master_opts => [-i => "/var/lib/iserv/config/id_rsa", -o => "StrictHostKeyChecking=no", -o => "UserKnownHostsFile=$known_hosts_file"],
+    master_opts => [
+      -i => "/var/lib/iserv/config/id_rsa",
+      -o => "StrictHostKeyChecking=no",
+      -o => "UserKnownHostsFile=$known_hosts_file",
+      -o => "ConnectTimeout=30"
+    ],
     user => "root",
     default_stdout_fh => $stdout_fh,
     default_stderr_fh => $stderr_fh
