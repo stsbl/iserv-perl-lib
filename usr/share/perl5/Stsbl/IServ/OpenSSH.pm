@@ -74,7 +74,7 @@ sub openssh_run($@)
   # close connection and write output
   undef $ssh;
   
-  if (@err > 0)
+  if (scalar @err > 0)
   {
     print STDERR @err;
   }

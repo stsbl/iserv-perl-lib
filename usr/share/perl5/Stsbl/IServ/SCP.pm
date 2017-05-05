@@ -3,6 +3,7 @@
 package Stsbl::IServ::SCP;
 use strict;
 use warnings;
+use utf8;
 use Net::SCP::Expect;
 
 BEGIN
