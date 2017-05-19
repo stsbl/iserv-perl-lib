@@ -7,7 +7,7 @@ use utf8;
 use warnings;
 use Bytes::Random::Secure;
 use File::Touch;
-use IServ::IO;
+use File::Slurp::Unicode;
 use Net::OpenSSH;
 
 BEGIN
@@ -72,10 +72,10 @@ sub openssh_run($@)
     $ssh->system(@cmd);
     if ($ssh->error) 
     {
-      push @err, "Could not execute cmd!";
+      push @err, "Could not execute cmd @cmd on host with IP $ip!\n";
     }
   } else {
-    push @err, "Could not connect to Port 22!";
+    push @err, "Could not connect to port 22 of host with IP $ip!\n";
   }
   # close connection and write output
   undef $ssh;
@@ -86,13 +86,13 @@ sub openssh_run($@)
   }
 
   my %ret;
-  $ret{stdout} = getfile $stdout_file;
-  $ret{stderr} = getfile $stderr_file;
+  $ret{stdout} = read_file $stdout_file;
+  $ret{stderr} = read_file $stderr_file;
   
   # clean up
-  unlink $stdout_file or warn "Couldn't unlink file $stdout_file: $!";
-  unlink $stderr_file or warn "Couldn't unlink file $stderr_file: $!";
-  unlink $known_hosts_file or warn "Couldn't unlink file $known_hosts_file: $!";
+  unlink $stdout_file or warn "Couldn't unlink file $stdout_file: $!\n";
+  unlink $stderr_file or warn "Couldn't unlink file $stderr_file: $!\n";
+  unlink $known_hosts_file or warn "Couldn't unlink file $known_hosts_file: $!\n";
 
   return %ret;
 }
