@@ -31,17 +31,17 @@ sub openssh_run($@)
   if ($stdout_file =~ /^(.*)$/) {
     $stdout_file = $1;
   } else {
-    die "Failed to untain data!";
+    die "Failed to untaint data!";
   }
   if ($stderr_file =~ /^(.*)$/) {
     $stderr_file = $1;
   } else {
-    die "Failed to untain data!";
+    die "Failed to untaint data!";
   }
   if ($known_hosts_file =~ /^(.*)$/) {
     $known_hosts_file = $1;
   } else {
-    die "Failed to untain data!";
+    die "Failed to untaint data!";
   }
 
   foreach my $file (($stdout_file, $stderr_file, $known_hosts_file))
@@ -59,7 +59,8 @@ sub openssh_run($@)
       -i => "/var/lib/iserv/config/id_rsa",
       -o => "StrictHostKeyChecking=no",
       -o => "UserKnownHostsFile=$known_hosts_file",
-      -o => "ConnectTimeout=30"
+      -o => "ConnectTimeout=30",
+      -o => "LogLevel=ERROR"
     ],
     user => "root",
     default_stdout_fh => $stdout_fh,
