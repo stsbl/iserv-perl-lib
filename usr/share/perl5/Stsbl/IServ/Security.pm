@@ -31,7 +31,7 @@ sub sessauth_auth($)
   if (not defined $password or not defined $user) {
     $auth_level = "none";
   } else {
-    IServ::Valid::User $user;
+    IServ::Valid::Act $user;
     IServ::Valid::Passwd $password;
     my $res = sessauth::sessauth $user, $password, $service;
     die "wrong session password\n" unless $res =~ /^OK\b/;
