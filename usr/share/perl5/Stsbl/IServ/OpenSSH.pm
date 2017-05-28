@@ -27,7 +27,7 @@ sub openssh_run($@)
   my $stderr_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
   my $known_hosts_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
 
-  # untain variables (TODO why is this neccessary?!)
+  # untaint variables (TODO why is this neccessary?!)
   if ($stdout_file =~ /^(.*)$/) {
     $stdout_file = $1;
   } else {
@@ -60,7 +60,8 @@ sub openssh_run($@)
       -o => "StrictHostKeyChecking=no",
       -o => "UserKnownHostsFile=$known_hosts_file",
       -o => "ConnectTimeout=30",
-      -o => "LogLevel=ERROR"
+      -o => "LogLevel=ERROR",
+      -o => "PreferredAuthentications=publickey"
     ],
     user => "root",
     default_stdout_fh => $stdout_fh,
