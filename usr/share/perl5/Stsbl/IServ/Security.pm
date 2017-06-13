@@ -68,6 +68,8 @@ sub sessauth_login($)
 {
   my ($service) = @_;
   
+  valid_user $user; 
+  IServ::Valid::Passwd $password;
   sessauth::login $user, $password, $service or die "sessauth login failed!";
 }
 
