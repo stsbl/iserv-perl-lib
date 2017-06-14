@@ -1,3 +1,17 @@
+stsbl-iserv-perl-lib (17.06.14-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * OpenSSH.pm: Added -o LogLevel=ERROR to ssh options to prevent ssh warnings on STDERR.
+  * OpenSSH.pm: Improved error printing.
+  * OpenSSH.pm: Use File::Slurp::Unicode.
+  * OpenSSH.pm: Allow only publickey for authentification.
+  * Security.pm: Re-disable broken user account check and use only generic account check.
+  * Updated build deps and rules.
+  * Security.pm: Added workaround for IServ::Valid::User problems.
+  * Security.pm: Validate user and password on sessauth_login.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Wed, 14 Jun 2017 20:07:24 +0200
+
 stsbl-iserv-perl-lib (17.05.05-2) experimental; urgency=medium
 
   [ Felix Jacobi ]
