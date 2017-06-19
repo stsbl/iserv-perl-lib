@@ -13,7 +13,7 @@ BEGIN
 {
   use Exporter;
   our @ISA = qw(Exporter);
-  our @EXPORT = qw(sessauth_auth sessauth_login auth_level req_auth req_admin req_priv req_priv_or_root req_flag req_group_owner set_credentials set_ips verify_uid);
+  our @EXPORT = qw(sessauth_auth sessauth_login auth_level req_auth req_admin req_priv req_priv_or_root req_one_priv req_flag req_group_owner set_credentials set_ips verify_uid);
 }
 
 use constant MIN_UID => 500;
@@ -112,6 +112,21 @@ sub req_priv($)
 sub req_priv_or_root($)
 {
   req_priv shift unless $user eq "root";
+}
+
+sub req_one_priv(@)
+{
+  foreach my $priv (@_)
+  {
+    eval
+    {
+      req_priv $priv;
+    };
+    next if $@;
+    return;
+  }
+
+  Stsbl::IServ::IO::error "need one of @_ privileges\n";
 }
 
 sub req_flag($$)
