@@ -1,3 +1,13 @@
+stsbl-iserv-perl-lib (17.06.20-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Updated install file.
+  * Fixed build deps.
+  * Security.pm: added sub req_one_priv for checking the requirement of one from multiple privileges.
+  * Log.pm: Added support for logging without printing (log_store).
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Tue, 20 Jun 2017 15:41:12 +0200
+
 stsbl-iserv-perl-lib (17.06.14-0) experimental; urgency=medium
 
   [ Felix Jacobi ]
