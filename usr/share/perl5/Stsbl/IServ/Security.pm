@@ -8,6 +8,7 @@ use IServ::Tools;
 use IServ::Valid;
 use sessauth;
 use Stsbl::IServ::IO;
+use Stsbl::IServ::Log;
 
 BEGIN
 {
@@ -62,6 +63,10 @@ sub sessauth_auth($)
   $IServ::DB::logname = IServ::Tools::pwname $user;
   $IServ::DB::logip = $login_ip;
   $IServ::DB::logipfwd = $login_ip_fwd;
+
+  $Stsbl::IServ::Log::logname = IServ::Tools::pwname $user;
+  $Stsbl::IServ::Log::logip = $login_ip;
+  $Stsbl::IServ::Log::logipfwd = $login_ip_fwd;
 }
 
 sub sessauth_login($)
