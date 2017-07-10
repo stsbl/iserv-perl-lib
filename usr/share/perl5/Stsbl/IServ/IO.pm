@@ -1,8 +1,10 @@
 # StsBl IServ IO Perl Library
 
 package Stsbl::IServ::IO;
+
 use strict;
 use warnings;
+use utf8;
 
 BEGIN
 {
