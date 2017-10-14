@@ -16,6 +16,9 @@ BEGIN
 sub scp($$$)
 {
   my ($host, $source, $destination) = @_;
+  
+  system "ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", $host;
+
   my $scp = Net::SCP::Expect->new(
     identity_file => "/var/lib/iserv/config/id_rsa",
     verbose => 1, 
@@ -27,6 +30,8 @@ sub scp($$$)
   $scp->host($host);
   $scp->login("root");
   $scp->scp($source, $destination);
+
+  system "ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", $host;
 }
 
 1;
