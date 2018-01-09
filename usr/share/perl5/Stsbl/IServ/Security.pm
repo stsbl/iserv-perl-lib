@@ -9,6 +9,7 @@ use IServ::Valid;
 use sessauth;
 use Stsbl::IServ::IO;
 use Stsbl::IServ::Log;
+use IServ::Valid;
 
 BEGIN
 {
@@ -29,30 +30,13 @@ my $login_ip;
 my $login_ip_fwd;
 my $m_ip = qr/[\d.:]{1,64}/;
 
-sub valid_user($)
-{
-  my $act = IServ::Tools::name2act shift;
-  my $type = shift;
-  die "Account nicht angegeben!\n" unless $act;
-  die "Account zu lang: $act\n" if length $act > MAX_LEN;
-  die "Ungültiger Account: $act\n" unless $act =~ /^[a-z][a-z0-9._-]*$/;
-  $act = $&;
-  if ($type)
-  {
-    die "UID von Account $act zu niedrig\n" if (pw $act, "uid") < MIN_UID;
-    die "Account $act ist nicht in DB ($type)\n"
-      unless IServ::Tools::is_act_type $act, "user";
-  }
-  $act;
-}
-
 sub sessauth_auth($)
 {
   my ($service) = @_;
   if (not defined $password or not defined $user) {
     $auth_level = "none";
   } else {
-    valid_user $user;
+    IServ::Valid::User $user;
     IServ::Valid::Passwd $password;
     my $res = sessauth::sessauth $user, $password, $service;
     die "wrong session password\n" unless $res =~ /^OK\b/;
@@ -73,7 +57,7 @@ sub sessauth_login($)
 {
   my ($service) = @_;
   
-  valid_user $user; 
+  IServ::Valid::User $user; 
   IServ::Valid::Passwd $password;
   sessauth::login $user, $password, $service or die "sessauth login failed!";
 }
