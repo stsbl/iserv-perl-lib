@@ -1,3 +1,15 @@
+stsbl-iserv-perl-lib (18.03.21-1) experimental; urgency=medium
+
+  * Use utf8 in IO.pm.
+  * Fixed scp with already known key.
+  * Added license
+  * Updated copyright
+  * Added lintian overrides
+  * Reuse IServ::Valid
+  * Swapped IServ::Valid and IServ::Tools to fix circular dependency
+
+ -- Felix Jacobi <felix.jacobi@stsbl.de>  Wed, 21 Mar 2018 21:48:55 +0100
+
 stsbl-iserv-perl-lib (17.06.20-0) experimental; urgency=medium
 
   [ Felix Jacobi ]
