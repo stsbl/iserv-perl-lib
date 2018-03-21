@@ -4,12 +4,11 @@ package Stsbl::IServ::Security;
 use strict;
 use warnings;
 use IServ::DB;
-use IServ::Tools;
 use IServ::Valid;
+use IServ::Tools;
 use sessauth;
 use Stsbl::IServ::IO;
 use Stsbl::IServ::Log;
-use IServ::Valid;
 
 BEGIN
 {
