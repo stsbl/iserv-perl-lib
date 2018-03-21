@@ -1,2 +1,4 @@
 # by design
 stsbl-iserv-perl-lib: extra-license-file usr/share/doc/stsbl-iserv-perl-lib/LICENSE
+# list is wanted
+stsbl-iserv-perl-lib: possible-unindented-list-in-extended-description
