@@ -1,3 +1,9 @@
+stsbl-iserv-perl-lib (18.03.21-3) experimental; urgency=medium
+
+  * Updated package description
+
+ -- Felix Jacobi <felix.jacobi@stsbl.de>  Wed, 21 Mar 2018 21:52:46 +0100
+
 stsbl-iserv-perl-lib (18.03.21-2) experimental; urgency=medium
 
   * Updated packaging
