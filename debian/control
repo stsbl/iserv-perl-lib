@@ -8,8 +8,15 @@ Homepage: https://it.stsbl.de/
 
 Package: stsbl-iserv-perl-lib
 Architecture: all
-Depends: iserv-portal, libnet-openssh-perl, libfile-touch-perl, libnet-scp-expect-perl (>= 0.16-1+stsbl1)
-Replaces: stsbl-iserv-linux-support (<< 17.05.04)
+Depends: ${misc:Depends},
+  ${perl:Depends},
+  iserv-portal,
+  libnet-openssh-perl,
+  libfile-touch-perl,
+  libnet-scp-expect-perl (>= 0.16-1+stsbl1)
+Replaces:
+  stsbl-iserv-linux-support (<< 17.05.04),
+Xb-Private-IServ-Revision: ${iserv:Revision}
 Description: Perl-Bibliotheken für IServ
  Enthält Perl-Bibliotheken für die IServ-Systemprogrammierung, die häufig
  verwendete Funktionen enthalten.
