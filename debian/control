@@ -2,8 +2,9 @@ Source: stsbl-iserv-perl-lib
 Section: perl
 Priority: extra
 Maintainer: Stadtteilschule Blankenese <repository@stsbl.de>
-Build-Depends: debhelper (>= 10), iserv3-dev
-Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 10)
+Build-Depends-Indep: iserv3-dev
+Standards-Version: 4.1.3.0
 Homepage: https://it.stsbl.de/
 
 Package: stsbl-iserv-perl-lib
@@ -13,7 +14,7 @@ Depends: ${misc:Depends},
   iserv-portal,
   libnet-openssh-perl,
   libfile-touch-perl,
-  libnet-scp-expect-perl (>= 0.16-1+stsbl1)
+  libnet-scp-expect-perl (>= 0.16-1+stsbl1),
 Replaces:
   stsbl-iserv-linux-support (<< 17.05.04),
 Xb-Private-IServ-Revision: ${iserv:Revision}
