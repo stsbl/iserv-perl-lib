@@ -6,7 +6,6 @@ use warnings;
 use utf8;
 use Encode qw(decode);
 use IServ::DB;
-use Stsbl::IServ::Security;
 
 our $logip;
 our $logipfwd;
