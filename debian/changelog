@@ -1,3 +1,10 @@
+stsbl-iserv-perl-lib (18.05.20-1) experimental; urgency=medium
+
+  * Updated packaging
+  * Log.pm: Cleanup
+
+ -- Felix Jacobi <felix.jacobi@stsbl.de>  Sun, 20 May 2018 19:54:46 +0200
+
 stsbl-iserv-perl-lib (18.03.21-4) experimental; urgency=medium
 
   * Update control
