@@ -1,3 +1,9 @@
+stsbl-iserv-perl-lib (19.01.28-1) experimental; urgency=medium
+
+  * Improved overall code
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Mon, 28 Jan 2019 02:56:20 +0100
+
 stsbl-iserv-perl-lib (18.05.20-1) experimental; urgency=medium
 
   * Updated packaging
