@@ -13,10 +13,11 @@ BEGIN
   our @EXPORT = qw(error);
 }
 
-sub error($) {
-  my ($error) = @_;
+sub error($;$) 
+{
+  my ($error, $exitcode) = @_;
   print STDERR $error."\n";
-  exit(1);
+  exit ($exitcode // 1);
 }
 
 1;

@@ -44,9 +44,9 @@ sub rpc_linux_current_user($)
   my $maxtty = 0;
   my %users;
 
-  foreach my $line (@out)
+  for (@out)
   {
-    if (defined $line and $line =~ /^([a-z][a-z0-9._-]*)\stty([0-9]*)/)
+    if (/^([a-z][a-z0-9._-]+)\stty([0-9]+)/)
     {
       $users{$2} = $1;
       $maxtty = $2 if $2 > $maxtty;	

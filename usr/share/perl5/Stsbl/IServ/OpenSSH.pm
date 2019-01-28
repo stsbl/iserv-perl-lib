@@ -5,10 +5,10 @@ package Stsbl::IServ::OpenSSH;
 use strict;
 use utf8;
 use warnings;
-use Bytes::Random::Secure;
+use File::Temp qw(tempfile);
 use File::Touch;
-use File::Slurp::Unicode;
 use Net::OpenSSH;
+use Path::Tiny;
 
 BEGIN
 {
@@ -21,37 +21,15 @@ sub openssh_run($@)
 {
   my ($ip, @cmd) = @_;
   my @err;
-  my $random = new Bytes::Random::Secure();
-  my $touch = new File::Touch();
-  my $stdout_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
-  my $stderr_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
-  my $known_hosts_file = "/tmp/stsbl-iserv-openssh-".$random->string_from('0123456789', 10);
+  my ($stdout_fh, $stdout_file) = tempfile("stsblssh_XXXXXX", OPEN => 1, DIR => "/tmp");
+  my ($stderr_fh, $stderr_file) = tempfile("stsblssh_XXXXXX", OPEN => 1, DIR => "/tmp");
+  my (undef, $known_hosts_file) = tempfile("stsblssh_XXXXXX", OPEN => 0, DIR => "/tmp");
 
-  # untaint variables (TODO why is this neccessary?!)
-  if ($stdout_file =~ /^(.*)$/) {
-    $stdout_file = $1;
-  } else {
-    die "Failed to untaint data!";
-  }
-  if ($stderr_file =~ /^(.*)$/) {
-    $stderr_file = $1;
-  } else {
-    die "Failed to untaint data!";
-  }
-  if ($known_hosts_file =~ /^(.*)$/) {
-    $known_hosts_file = $1;
-  } else {
-    die "Failed to untaint data!";
-  }
-
-  foreach my $file (($stdout_file, $stderr_file, $known_hosts_file))
+  for my $file (($stdout_file, $stderr_file, $known_hosts_file))
   {
-    $touch->touch($file) or die "Couldn't touch file $file: $!";
+    touch $file or die "Couldn't touch file $file: $!";
     chmod 00600, $file or die "Couldn't chmod file $file: $!";
   }
-
-  open my $stdout_fh, ">>", $stdout_file;
-  open my $stderr_fh, ">>", $stderr_file;
 
   my $ssh = Net::OpenSSH->new(
     $ip,
@@ -71,11 +49,14 @@ sub openssh_run($@)
   if (not $ssh->error)
   {
     $ssh->system(@cmd);
+
     if ($ssh->error) 
     {
       push @err, "Could not execute cmd @cmd on host with IP $ip!\n";
     }
-  } else {
+  }
+  else
+  {
     push @err, "Could not connect to port 22 of host with IP $ip!\n";
   }
   # close connection and write output
@@ -87,15 +68,14 @@ sub openssh_run($@)
   }
 
   my %ret;
-  $ret{stdout} = read_file $stdout_file;
-  $ret{stderr} = read_file $stderr_file;
+  $ret{stdout} = path($stdout_file)->slurp_utf8;
+  $ret{stderr} = path($stderr_file)->slurp_utf8;
   
   # clean up
-  unlink $stdout_file or warn "Couldn't unlink file $stdout_file: $!\n";
-  unlink $stderr_file or warn "Couldn't unlink file $stderr_file: $!\n";
-  unlink $known_hosts_file or warn "Couldn't unlink file $known_hosts_file: $!\n";
+  unlink $known_hosts_file, $stdout_file, $stderr_file or
+      warn "Couldn't unlink temporary files: $!\n";
 
-  return %ret;
+  %ret;
 }
 
 1;

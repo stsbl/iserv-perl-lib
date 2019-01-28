@@ -4,6 +4,7 @@ package Stsbl::IServ::SCP;
 use strict;
 use warnings;
 use utf8;
+use IPC::Run qw(run);
 use Net::SCP::Expect;
 
 BEGIN
@@ -13,11 +14,20 @@ BEGIN
   our @EXPORT = qw(scp);
 }
 
+sub CleanupKnownHosts($)
+{
+  my ($host) = @_;
+
+  # Hides output
+  run ["ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", $host], \my $in,
+      \my $out, \my $err;
+}
+
 sub scp($$$)
 {
   my ($host, $source, $destination) = @_;
   
-  system "ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", $host;
+  CleanupKnownHosts $host;
 
   my $scp = Net::SCP::Expect->new(
     identity_file => "/var/lib/iserv/config/id_rsa",
@@ -31,7 +41,7 @@ sub scp($$$)
   $scp->login("root");
   $scp->scp($source, $destination);
 
-  system "ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", $host;
+  CleanupKnownHosts $host;
 }
 
 1;
