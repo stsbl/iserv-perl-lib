@@ -31,7 +31,7 @@ sub scp($$$)
 
   my $scp = Net::SCP::Expect->new(
     identity_file => "/var/lib/iserv/config/id_rsa",
-    verbose => 1, 
+    verbose => 0,
     auto_yes => 1,
     timeout => 30,
     timeout_auto => 30,
