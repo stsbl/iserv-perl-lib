@@ -15,7 +15,7 @@ Depends: ${misc:Depends},
   libfile-touch-perl,
   libipc-run-perl,
   libnet-openssh-perl,
-  libnet-scp-expect-perl (>= 0.16-1+stsbl1),
+  libnet-scp-expect-perl (>= 0.16-1+stsbl3),
   libpath-tiny-perl,
 Replaces:
   stsbl-iserv-linux-support (<< 17.05.04),

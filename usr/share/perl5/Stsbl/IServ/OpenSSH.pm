@@ -34,7 +34,8 @@ sub openssh_run($@)
   my $ssh = Net::OpenSSH->new(
     $ip,
     master_opts => [
-      -i => "/var/lib/iserv/config/id_rsa",
+      -i => "/var/lib/iserv/portal/ssh/id_ed25519",
+      -i => "/var/lib/iserv/portal/ssh/id_rsa",
       -o => "StrictHostKeyChecking=no",
       -o => "UserKnownHostsFile=$known_hosts_file",
       -o => "ConnectTimeout=30",

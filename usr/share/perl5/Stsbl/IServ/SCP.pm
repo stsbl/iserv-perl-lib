@@ -30,7 +30,7 @@ sub scp($$$)
   CleanupKnownHosts $host;
 
   my $scp = Net::SCP::Expect->new(
-    identity_file => "/var/lib/iserv/config/id_rsa",
+    identity_file => ["/var/lib/iserv/portal/ssh/id_ed25519", "/var/lib/iserv/portal/ssh/id_rsa"],
     verbose => 0,
     auto_yes => 1,
     timeout => 30,
