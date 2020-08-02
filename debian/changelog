@@ -1,3 +1,9 @@
+stsbl-iserv-perl-lib (20.08.02-1) testing; urgency=medium
+
+  * Bumped copyright
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Sun, 02 Aug 2020 06:44:59 +0200
+
 stsbl-iserv-perl-lib (19.07.16-1) experimental; urgency=medium
 
   * Adapted for ed25519 SSH keys
