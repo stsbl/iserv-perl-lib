@@ -1,3 +1,10 @@
+stsbl-iserv-perl-lib (20.10.26-1) stable; urgency=medium
+
+  * Updated license copyright
+  * Security.pm: Removed IServ::Tools::pwname
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Mon, 26 Oct 2020 19:07:30 +0100
+
 stsbl-iserv-perl-lib (20.08.02-1) testing; urgency=medium
 
   * Bumped copyright
