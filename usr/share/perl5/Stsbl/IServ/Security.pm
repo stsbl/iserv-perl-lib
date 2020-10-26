@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use IServ::DB;
 use IServ::Valid;
-use IServ::Tools;
 use sessauth;
 use Stsbl::IServ::IO;
 use Stsbl::IServ::Log;
@@ -43,11 +42,15 @@ sub sessauth_auth($)
     $auth_user = $user;
   }
 
-  $IServ::DB::logname = IServ::Tools::pwname $user;
+  my $login_name = IServ::DB::SelectVal
+      "SELECT user_join_name(firstname, lastname) FROM users WHERE act = ?",
+      $auth_user;
+
+  $IServ::DB::logname = $login_name;
   $IServ::DB::logip = $login_ip;
   $IServ::DB::logipfwd = $login_ip_fwd;
 
-  $Stsbl::IServ::Log::logname = IServ::Tools::pwname $user;
+  $Stsbl::IServ::Log::logname = $login_name;
   $Stsbl::IServ::Log::logip = $login_ip;
   $Stsbl::IServ::Log::logipfwd = $login_ip_fwd;
 }
