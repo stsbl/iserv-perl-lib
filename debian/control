@@ -1,25 +1,23 @@
 Source: stsbl-iserv-perl-lib
 Section: perl
-Priority: extra
+Priority: optional
 Maintainer: Stadtteilschule Blankenese <repository@stsbl.de>
-Build-Depends: debhelper (>= 10)
-Build-Depends-Indep: iserv-buildtools
-Standards-Version: 4.3.0
+Build-Depends: debhelper-compat (= 13), dh-sequence-iserv, dh-sequence-stsbl
+Standards-Version: 4.5.0
 Homepage: https://it.stsbl.de/
 
 Package: stsbl-iserv-perl-lib
 Architecture: all
-Depends: ${misc:Depends},
-  ${perl:Depends},
-  iserv-portal,
-  libfile-touch-perl,
-  libipc-run-perl,
-  libnet-openssh-perl,
-  libnet-scp-expect-perl (>= 0.16-1+stsbl3),
-  libpath-tiny-perl,
-Replaces:
-  stsbl-iserv-linux-support (<< 17.05.04),
-Xb-Private-IServ-Revision: ${iserv:Revision}
+Depends: iserv-portal,
+         libfile-touch-perl,
+         libipc-run-perl,
+         libnet-openssh-perl,
+         libnet-scp-expect-perl (>= 0.16-1+stsbl3),
+         libpath-tiny-perl,
+         ${misc:Depends},
+         ${perl:Depends}
+Replaces: stsbl-iserv-linux-support (<< 17.05.04)
+Xb-Private-Iserv-Revision: ${iserv:Revision}
 Description: Perl-Bibliotheken für IServ
  Enthält Perl-Bibliotheken für die IServ-Systemprogrammierung, die häufig
  verwendete Funktionen enthalten.
