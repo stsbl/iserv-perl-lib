@@ -26,7 +26,6 @@ sub log_store($;%)
   $logname = (getpwuid ((!$< and %ENV and defined $ENV{'SUDO_UID'}) ? $ENV{'SUDO_UID'} : $<))[6] unless defined $logname;
   $row{"name"} = $logname;
   $row{"ip"} = $logip;
-  $row{"ipfwd"} = $logipfwd;
   $row{"text"} = $text;
   IServ::DB::Store "log", \%row;
 }
